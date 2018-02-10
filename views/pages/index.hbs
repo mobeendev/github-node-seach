@@ -1,0 +1,93 @@
+<main role="main">
+
+   <section class="jumbotron text-center">
+      <div class="container">
+         <h1 class="jumbotron-heading">Top Trending Github Projects</h1>
+         <p class="lead text-muted"> Donec id eli t non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+         <p>
+            <a href="#" class="btn btn-primary my-2">Search More GitHub Repos</a>
+            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+         </p>
+      </div>
+   </section>
+
+   <div class="album py-5 bg-light">
+      <div class="container">
+
+         <div class="row" id="project_row">
+
+            <div class="col-12">
+               <img class="mx-auto d-block" src="/images/ajax-loader.gif">
+            </div>
+
+         </div>
+      </div>
+   </div>
+
+</main>
+
+<script>
+   (function () {
+      var nodeAPI = "http://localhost:3000/repos";
+
+      function makeAjaxCall(url, methodType, callback) {
+         jQuery.ajax({
+            url: url,
+            method: methodType,
+            dataType: "json",
+            success: callback,
+            error: function (reason, xhr) {
+               console.log("error in processing your request", reason);
+            }
+         })
+      }
+      // git hub url to get btford details
+      var URL = "https://api.github.com/users/";
+      makeAjaxCall(nodeAPI, "GET", function (respJson) {
+         //   console.log(respJson.message);
+         jQuery("#project_row").html('');
+         //return ;
+         $.each(respJson.message, function (index, repo) {
+
+            //       console.log(repo.author);
+
+            //    var ui = {}
+            makeAjaxCall(URL + repo.author, "GET", function (userInfo) {
+               console.log(userInfo);
+               var pro_data = `<div class="col-md-6">
+          <div class="card flex-md-row mb-4 box-shadow h-md-250">
+            <div class="card-body d-flex flex-column align-items-start">
+              <strong class="d-inline-block mb-2 text-primary">${repo.author} 
+                  </strong>
+              
+              <h3 class="mb-0">
+                <a class="text-dark" href="#">${repo.name}</a>
+                
+              </h3>
+              <div style="color:black" class="mb-1">
+                <i style="color: #63b763;" class="fa fa-default fa-star"></i> ${repo.stars}
+                <i class="fa  fa-code-fork"></i> ${repo.forks}
+                <i style="color:orange" class="fa fa-code"></i> ${repo.language}
+              </div>
+              <p class="card-text mb-auto">${repo.description.substring(0, 150)}</p>
+              <a href="${repo.href}" target="_blank">Visit Page></a>
+            </div>
+            <img class="card-img-right flex-auto d-none d-md-block" data-src="${userInfo}" 
+            alt="Thumbnail [200x250]" style="width: 200px; height: 250px;" 
+                src="${userInfo.avatar_url}"
+             data-holder-rendered="true">
+          </div>
+        </div>`;
+               jQuery("#project_row").append(pro_data).fadeIn();
+               //        return userInfo;
+            });
+
+         });
+
+
+
+      });
+
+
+   })();
+</script>

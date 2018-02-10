@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+   <a class="navbar-brand" href="/"><i class="fa fa-github"></i> GitHubTrending</a>
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+   <div class="collapse navbar-collapse" id="navbarsExample02">
+      <ul class="navbar-nav mr-auto">
+         <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+         </li>
+
+         {{# if login }}
+
+         <li class="nav-item">
+            <a class="nav-link" href="/user/search">Search</a>
+         </li>
+         {{/if}}
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+         {{# if login }}
+         <a class="nav-link" href="/user/profile">Profile</a>
+         <a class="nav-link" href="/user/logout">Logout</a> {{ else }}
+         <a class="nav-link" href="/user/signin">Login</a> {{/if}}
+
+      </ul>
+   </div>
+
+
+</nav>
